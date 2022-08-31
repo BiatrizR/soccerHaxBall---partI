@@ -39,6 +39,8 @@ function setup() {
 
   engine = Engine.create();
   world = engine.world;
+  
+  //fazer contagem de placar
 
   redGoal = createSprite(68, 350, 5, 100);
   redGoal.shapeColor = rgb(139, 0, 0, 0.5);
@@ -65,14 +67,14 @@ function setup() {
 
 function draw() {
   background(0);
-
   image(bg_img, 550, 350, width, height);
 
   Engine.update(engine);
-
-  limites();
-
+ 
+  
   player1.bounce(ball);
+  controls();
+  limites();
 
   if (ball.velocityX > 0) {
     ball.velocityX -= 0.5;
@@ -86,39 +88,55 @@ function draw() {
     ball.velocityY += 0.5;
   }
 
-  controls();
+  
   drawSprites();
 }
 
 function controls() {
+  //controles player1
   if (keyDown("UP")) {
     // player1.y=player1.y-4;
     player1.velocityY = -4;
-  } else if (keyDown("DOWN")) {
-    // player1.y=player1.y+4;
-    player1.velocityY = 4;
-  } else if (keyDown("RIGHT")) {
-    //player1.x=player1.x+4;
-    player1.velocityX = 4;
-  } else if (keyDown("LEFT")) {
-    player1.velocityX = -4;
-    // player1.x=player1.x-4;
-  } else {
+  }
+    else if (keyDown("DOWN")) {
+      // player1.y=player1.y+4;
+      player1.velocityY = 4;
+    } 
+      else if (keyDown("RIGHT")) {
+        //player1.x=player1.x+4;
+        player1.velocityX = 4;
+      } 
+        else if (keyDown("LEFT")) {
+          player1.velocityX = -4;
+          // player1.x=player1.x-4;
+        }
+  else {
     player1.velocityX = 0;
     player1.velocityY = 0;
   }
+  
 
+  //condição para chute player1
   if (keyCode == 32) {
-    if (ball.x < player1.x) {
-      ball.velocityX -= (1 * frameRate()) / 80;
-    }
+      if (ball.x < player1.x) {
+        ball.velocityX -= (1 * frameRate()) / 80;
+      }
   }
+  //condição para alerta de gol
   if (ball.isTouching(redGoal)) {
     goal();
-  }
+    //fazer contagem de gols
+    }
+  
+  //criar controles player2 
+  
+  //criar chute do player2
+  
+  //marcação de gol
 }
 
 function limites() {
+  //limites player1
   if (player1.x > 1064) {
     player1.x = 1060;
   }
@@ -133,6 +151,7 @@ function limites() {
     player1.y = 55;
   }
 
+  //limites bola
   if (ball.x > 1064) {
     ball.x = 1060;
   }
@@ -146,8 +165,11 @@ function limites() {
   if (ball.y < 50) {
     ball.y = 55;
   }
+  
+  //criar limites player2
 }
 
+//alert gol
 function goal() {
   swal(
     {
